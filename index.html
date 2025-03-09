@@ -136,7 +136,7 @@
                                     </label>
                                 </div>
 
-                                <<div class="flex items-center space-x-2">
+                                <div class="flex items-center space-x-2">
                                     <input 
                                         type="checkbox"
                                         id="vitaminD"
@@ -433,80 +433,112 @@
                 }
             });
             
-            // Form submission
-            document.getElementById('greatness-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get all form data
-                const clientId = localStorage.getItem('greatness360_client_id');
-                const date = document.getElementById('date').value;
-                const exercise = document.getElementById('exercise').checked;
-                const exerciseNotes = document.getElementById('exercise-notes').value;
-                const vitaminB = document.getElementById('vitaminB').checked;
-                const vitaminD = document.getElementById('vitaminD').checked;
-                const probiotics = document.getElementById('probiotics').checked;
-                const stillness = document.getElementById('stillness').checked;
-                const sleepTrouble = document.getElementById('sleepTrouble').checked;
-                const sleepMidnight = document.getElementById('sleepMidnight').checked;
-                const sleepSolid = document.getElementById('sleepSolid').checked;
-                const sleepEarlyMeetings = document.getElementById('sleepEarlyMeetings').checked;
-                const mood = document.getElementById('mood').value;
-                const learning = document.getElementById('learning').value;
-                const meaning = document.getElementById('meaning').value;
-                const decisions = document.getElementById('decisions').value;
-                const frustrations = document.getElementById('frustrations').value;
-                const braggingRights = document.getElementById('braggingRights').value;
-                
-                // Get selected belief reasons
-                const beliefs = [];
-                document.querySelectorAll('input[name="beliefs"]:checked').forEach(function(checkbox) {
-                    beliefs.push(checkbox.value);
-                });
-                
-                // Add custom belief reason if selected
-                const beliefCustom = document.getElementById('beliefCustom').checked;
-                const customBeliefReason = document.getElementById('customBeliefReason').value;
-                if (beliefCustom && customBeliefReason) {
-                    beliefs.push(`Custom: ${customBeliefReason}`);
-                }
-                
-                // Prepare data object
-                const formData = {
-                    timestamp: new Date().toISOString(),
-                    clientId: clientId,
-                    date: date,
-                    exercise: exercise ? 'Yes' : 'No',
-                    exerciseNotes: exerciseNotes,
-                    vitaminB: vitaminB ? 'Yes' : 'No',
-                    vitaminD: vitaminD ? 'Yes' : 'No',
-                    probiotics: probiotics ? 'Yes' : 'No',
-                    stillness: stillness ? 'Yes' : 'No',
-                    sleepTrouble: sleepTrouble ? 'Yes' : 'No',
-                    sleepMidnight: sleepMidnight ? 'Yes' : 'No',
-                    sleepSolid: sleepSolid ? 'Yes' : 'No',
-                    sleepEarlyMeetings: sleepEarlyMeetings ? 'Yes' : 'No',
-                    mood: mood,
-                    learning: learning,
-                    meaning: meaning,
-                    decisions: decisions,
-                    frustrations: frustrations,
-                    braggingRights: braggingRights,
-                    beliefs: beliefs.join(', ')
-                };
-                
-                // TODO: Submit to Google Sheets (we'll implement this separately)
-                console.log('Form data to submit:', formData);
-                
-                // For now, just show success message
-                document.getElementById('success-message').classList.remove('hidden');
-                setTimeout(function() {
-                    document.getElementById('success-message').classList.add('hidden');
-                }, 3000);
-                
-                // Reset form (optional)
-                // this.reset();
-            });
-        });
+            // Replace lines 427-489 with this:
+
+// SCRIPT_URL for Google Sheets connection
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxr6It0dm26oAMU45hpZqvtqYogdGeXXUNqh3FA0alYcZ3d75TjhidA1d2CDZZQb60/exec';
+
+// Form submission
+document.getElementById('greatness-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Show loading indicator
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.innerHTML = 'Saving...';
+    submitButton.disabled = true;
+    
+    // Get all form data
+    const clientId = localStorage.getItem('greatness360_client_id');
+    const date = document.getElementById('date').value;
+    const exercise = document.getElementById('exercise').checked;
+    const exerciseNotes = document.getElementById('exercise-notes').value;
+    const vitaminB = document.getElementById('vitaminB').checked;
+    const vitaminD = document.getElementById('vitaminD').checked;
+    const probiotics = document.getElementById('probiotics').checked;
+    const stillness = document.getElementById('stillness').checked;
+    const sleepTrouble = document.getElementById('sleepTrouble').checked;
+    const sleepMidnight = document.getElementById('sleepMidnight').checked;
+    const sleepSolid = document.getElementById('sleepSolid').checked;
+    const sleepEarlyMeetings = document.getElementById('sleepEarlyMeetings').checked;
+    const mood = document.getElementById('mood').value;
+    const learning = document.getElementById('learning').value;
+    const meaning = document.getElementById('meaning').value;
+    const decisions = document.getElementById('decisions').value;
+    const frustrations = document.getElementById('frustrations').value;
+    const braggingRights = document.getElementById('braggingRights').value;
+    
+    // Get selected belief reasons
+    const beliefs = [];
+    document.querySelectorAll('input[name="beliefs"]:checked').forEach(function(checkbox) {
+        beliefs.push(checkbox.value);
+    });
+    
+    // Add custom belief reason if selected
+    const beliefCustom = document.getElementById('beliefCustom').checked;
+    const customBeliefReason = document.getElementById('customBeliefReason').value;
+    if (beliefCustom && customBeliefReason) {
+        beliefs.push(`Custom: ${customBeliefReason}`);
+    }
+    
+    // Prepare data object
+    const formData = {
+        timestamp: new Date().toISOString(),
+        clientId: clientId,
+        date: date,
+        exercise: exercise ? 'Yes' : 'No',
+        exerciseNotes: exerciseNotes,
+        vitaminB: vitaminB ? 'Yes' : 'No',
+        vitaminD: vitaminD ? 'Yes' : 'No',
+        probiotics: probiotics ? 'Yes' : 'No',
+        stillness: stillness ? 'Yes' : 'No',
+        sleepTrouble: sleepTrouble ? 'Yes' : 'No',
+        sleepMidnight: sleepMidnight ? 'Yes' : 'No',
+        sleepSolid: sleepSolid ? 'Yes' : 'No',
+        sleepEarlyMeetings: sleepEarlyMeetings ? 'Yes' : 'No',
+        mood: mood,
+        learning: learning,
+        meaning: meaning,
+        decisions: decisions,
+        frustrations: frustrations,
+        braggingRights: braggingRights,
+        beliefs: beliefs.join(', ')
+    };
+    
+    // Submit to Google Sheets
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        
+        // Show success message
+        document.getElementById('success-message').classList.remove('hidden');
+        setTimeout(function() {
+            document.getElementById('success-message').classList.add('hidden');
+        }, 3000);
+        
+        // Reset button
+        submitButton.innerHTML = originalButtonText;
+        submitButton.disabled = false;
+        
+        // Optionally clear form fields
+        // this.reset();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('There was an error saving your entry. Please try again.');
+        
+        // Reset button
+        submitButton.innerHTML = originalButtonText;
+        submitButton.disabled = false;
+    });
+});
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxr6It0dm26oAMU45hpZqvtqYogdGeXXUNqh3FA0alYcZ3d75TjhidA1d2CDZZQb60/exec';
     </script>
 </body>
